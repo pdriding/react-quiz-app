@@ -1,18 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import { QuizContext } from "./components/QuizProvider";
 import Welcome from "./components/Welcome";
-// import Quiz from "./components/Quiz";
+import Quiz from "./components/Quiz";
 // import ResultsModal from "./components/ResultsModal";
 
 export default function App() {
   const { state, dispatch } = useContext(QuizContext);
   const [usersName, setUsersName] = useState("");
 
-  console.log(555, state.currentIndex);
+  console.log(555, state);
 
-  useEffect(() => {
-    console.log(5);
-  }, [dispatch, state, usersName]);
+  useEffect(() => {}, [dispatch, state, usersName]);
 
   return (
     <div className="app-container">

@@ -31,11 +31,10 @@ const TextInput = forwardRef(function TextInput({ setName }, ref) {
     } else {
       setIsLoading(true);
       setTimeout(() => {
-        // TODO
         dispatch({ type: "START" }, state);
         setIsLoading(false);
         setName(inputValue);
-      }, 1000);
+      }, 500);
     }
   }
 
