@@ -31,6 +31,7 @@ const TextInput = forwardRef(function TextInput({ setName }, ref) {
     } else {
       setIsLoading(true);
       setTimeout(() => {
+        console.log(99, dispatch);
         dispatch({ type: "START" }, state);
         setIsLoading(false);
         setName(inputValue);
