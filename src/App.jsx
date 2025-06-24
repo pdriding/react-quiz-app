@@ -8,8 +8,6 @@ export default function App() {
   const { state, dispatch } = useContext(QuizContext);
   const [usersName, setUsersName] = useState("");
 
-  console.log(555, state);
-
   useEffect(() => {}, [dispatch, state, usersName]);
 
   return (

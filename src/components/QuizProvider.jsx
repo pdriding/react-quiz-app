@@ -9,15 +9,25 @@ const initialState = {
 };
 
 function quizReducer(state, action) {
+  console.log(555, action.payload);
   switch (action.type) {
     case "SET_QUESTIONS":
-      console.log(555, action.payload);
       return { ...state, questions: action.payload };
     case "START":
       return { ...state, currentIndex: 0 };
     // TODO
     case "ANSWER":
-      return { ...state, yes: 1 };
+      // TODO
+      const isCorrect =
+        action.payload === state.questions[state.currentIndex].correct;
+      return {
+        ...state,
+        score: isCorrect ? state.score + 1 : state.score,
+        history: [
+          ...state.history,
+          { id: state.questions[state.currentIndex].id, correct: isCorrect },
+        ],
+      };
     case "NEXT":
       return { ...state, yes: 1 };
     case "RESET":

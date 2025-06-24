@@ -13,7 +13,7 @@ export default function Quiz() {
     correct: "",
   });
 
-  const { state } = useContext(QuizContext);
+  const { state, dispatch } = useContext(QuizContext);
 
   useEffect(() => {
     fetchQuestions().then((qs) => {
@@ -31,9 +31,9 @@ export default function Quiz() {
       {!currentQuestion.loading && (
         <>
           <h1>Quiz</h1>
+          <h2>Question {state.currentIndex + 1}</h2>
           <Question curQuestion={currentQuestion.curQuestion} />
-          // TODO
-          <Answer answers={state.questions[state.currentIndex].answers} />
+          <Answer />
         </>
       )}
     </>
