@@ -10,6 +10,7 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const TextInput = forwardRef(function TextInput({ setName }, ref) {
   const [inputValue, setInputValue] = useState("");
+  // TODO Loading is now in state
   const [isLoading, setIsLoading] = useState(false);
   const { state, dispatch } = useContext(QuizContext);
 
@@ -34,7 +35,7 @@ const TextInput = forwardRef(function TextInput({ setName }, ref) {
         console.log(99, dispatch);
         dispatch({ type: "START" }, state);
         setIsLoading(false);
-        setName(inputValue);
+        setName({ type: "SET_USERNAME", inputValue });
       }, 500);
     }
   }

@@ -1,41 +1,25 @@
-import { useState, useEffect, useContext } from "react";
 import Question from "./Question";
 import LoadingSpinner from "./LoadingSpinner";
-import { fetchQuestions } from "../api/questions";
-import { QuizContext } from "./QuizProvider";
-import Answer from "./Answer";
 
-export default function Quiz() {
-  const [currentQuestion, setCurrentQuestion] = useState({
-    loading: true,
-    curQuestion: "",
-    answers: [],
-    correct: "",
-  });
-
-  const { state, dispatch } = useContext(QuizContext);
-
-  useEffect(() => {
-    fetchQuestions().then((qs) => {
-      setCurrentQuestion({
-        load: false,
-        curQuestion: qs[state.currentIndex].question,
-        answers: qs[state.currentIndex].answers,
-      });
-    });
-  }, [state.currentIndex]);
+export default function Quiz({ state, dispatch }) {
+  if (state.loading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>
-      {currentQuestion.loading && <LoadingSpinner />}
-      {!currentQuestion.loading && (
-        <>
-          <h1>Quiz</h1>
-          <h2>Question {state.currentIndex + 1}</h2>
-          <Question curQuestion={currentQuestion.curQuestion} />
-          <Answer />
-        </>
-      )}
+      <>
+        <h1>Quiz</h1>
+        <h2>Question {state.currentIndex + 1}</h2>
+
+        <Question
+          questionText={state.questions[state.currentIndex].question}
+          answers={state.questions[state.currentIndex].answers}
+          correctAnswer={state.questions[state.currentIndex].correct}
+          onAnswer={(ans) => dispatch({ type: "ANSWER", payload: ans })}
+          nextQuestion={() => dispatch({ type: "NEXT", dispatch: dispatch })}
+        />
+      </>
     </>
   );
 }
