@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import { fetchQuestions } from "../api/questions";
 
 const initialState = {
@@ -7,17 +7,19 @@ const initialState = {
   currentIndex: -1,
   score: 0,
   history: [],
-  loading: true,
+  loading: false,
 };
 
 function quizReducer(state, action) {
   switch (action.type) {
+    case "LOADING":
+      return { ...state, loading: action.payload };
     case "ADD_USERNAME":
-      return { ...state, userName: action.useName };
+      return { ...state, userName: action.userName };
     case "SET_QUESTIONS":
       return { ...state, questions: action.payload };
     case "START":
-      return { ...state, currentIndex: 0, loading: false };
+      return { ...state, currentIndex: 0 };
     case "ANSWER": {
       const isCorrect =
         action.payload === state.questions[state.currentIndex].correct;
@@ -31,7 +33,7 @@ function quizReducer(state, action) {
       };
     }
     case "NEXT":
-      return { ...state, currentIndex: state.currentIndex++ };
+      return { ...state, currentIndex: state.currentIndex + 1 };
     case "RESET":
       return initialState;
     default:

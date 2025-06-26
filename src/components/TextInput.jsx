@@ -1,18 +1,8 @@
-import {
-  useState,
-  useRef,
-  useImperativeHandle,
-  forwardRef,
-  useContext,
-} from "react";
-import { QuizContext } from "./QuizProvider";
+import { useState, useRef, useImperativeHandle, forwardRef } from "react";
 import LoadingSpinner from "./LoadingSpinner";
 
-const TextInput = forwardRef(function TextInput({ setName }, ref) {
+const TextInput = forwardRef(function TextInput({ onStart, loading }, ref) {
   const [inputValue, setInputValue] = useState("");
-  // TODO Loading is now in state
-  const [isLoading, setIsLoading] = useState(false);
-  const { state, dispatch } = useContext(QuizContext);
 
   const inputRef = useRef();
 
@@ -30,19 +20,13 @@ const TextInput = forwardRef(function TextInput({ setName }, ref) {
     if (!inputValue) {
       inputRef.current.focus();
     } else {
-      setIsLoading(true);
-      setTimeout(() => {
-        console.log(99, dispatch);
-        dispatch({ type: "START" }, state);
-        setIsLoading(false);
-        setName({ type: "SET_USERNAME", inputValue });
-      }, 500);
+      onStart(inputValue);
     }
   }
 
   return (
     <>
-      {isLoading && <LoadingSpinner />}
+      {loading && <LoadingSpinner />}
       <h2>Please enter your name</h2>
       <input
         type="text"

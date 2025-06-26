@@ -17,7 +17,7 @@ export default function Quiz({ state, dispatch }) {
           answers={state.questions[state.currentIndex].answers}
           correctAnswer={state.questions[state.currentIndex].correct}
           onAnswer={(ans) => dispatch({ type: "ANSWER", payload: ans })}
-          nextQuestion={() => dispatch({ type: "NEXT", dispatch: dispatch })}
+          nextQuestion={() => dispatch({ type: "NEXT" })}
         />
       </>
     </>

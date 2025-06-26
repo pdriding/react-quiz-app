@@ -1,7 +1,7 @@
 import TextInput from "./TextInput";
 import { useRef, useEffect } from "react";
 
-export default function Welcome({ setName }) {
+export default function Welcome({ onStart, loading }) {
   const textRef = useRef();
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function Welcome({ setName }) {
   return (
     <>
       <h1>Welcome to the Quiz</h1>
-      <TextInput setName={setName} ref={textRef} />
+      <TextInput onStart={onStart} loading={loading} ref={textRef} />
     </>
   );
 }
