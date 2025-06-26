@@ -11,6 +11,7 @@ const initialState = {
 };
 
 function quizReducer(state, action) {
+  console.log(99, state);
   switch (action.type) {
     case "LOADING":
       return { ...state, loading: action.payload };
@@ -35,6 +36,7 @@ function quizReducer(state, action) {
     case "NEXT":
       return { ...state, currentIndex: state.currentIndex + 1 };
     case "RESET":
+      // TODO
       return initialState;
     default:
       return state;

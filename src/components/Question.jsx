@@ -22,7 +22,7 @@ export default function Question({
   }, [answers]);
   return (
     <>
-      <p className="text-amber-300 text-5xl">{questionText}</p>
+      <p className="text-amber-300 text-3xl">{questionText}</p>
       {answers.map((a, i) => {
         let classToken;
         if (selected) {
@@ -35,7 +35,7 @@ export default function Question({
         return (
           <button
             disabled={!!selected}
-            className={selected ? classToken : ""}
+            className={`w-[300px] ${selected ? classToken : ""}`}
             value={a}
             onClick={() => handleClick(a)}
             key={i}
