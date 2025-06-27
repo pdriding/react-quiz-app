@@ -1,13 +1,26 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { QuizContext } from "./components/QuizProvider";
 import { ThemeContext } from "./components/ThemeProvider";
 import Welcome from "./components/Welcome";
 import Quiz from "./components/Quiz";
 import ResultsModal from "./components/ResultsModal";
+import LoadingSpinner from "./components/LoadingSpinner";
+import { fetchQuestions } from "./api/questions";
 
 export default function App() {
   const { state, dispatch } = useContext(QuizContext);
   const { toggleTheme } = useContext(ThemeContext);
+
+  useEffect(() => {
+    if (state.questions.length === 0) {
+      dispatch({ type: "LOADING", payload: true });
+      fetchQuestions()
+        .then((qs) => dispatch({ type: "SET_QUESTIONS", payload: qs }))
+        .then(() => {
+          dispatch({ type: "LOADING", payload: false });
+        });
+    }
+  }, [dispatch, state.questions.length]);
 
   function handleStart(inputValue) {
     dispatch({ type: "LOADING", payload: true });
@@ -27,25 +40,28 @@ export default function App() {
       >
         Toggle Theme
       </button>
-
       {/* Quiz Container */}
-      <div className="w-[400px] h-[60vh] p-6 py-10 my-10 rounded-2xl shadow-2xl bg-gray-200 dark:bg-gray-800 flex flex-col items-center justify-center">
-        {state.currentIndex === -1 && (
-          <Welcome onStart={handleStart} loading={state.loading} />
-        )}
-
-        {state.currentIndex >= 0 &&
-          state.currentIndex < state.questions.length && (
-            <Quiz state={state} dispatch={dispatch} />
-          )}
-
-        {state.currentIndex === state.questions.length && (
-          <ResultsModal
-            state={state}
-            restart={() => dispatch({ type: "RESET" })}
-          />
-        )}
-      </div>
+      {state.loading && <LoadingSpinner />}
+      {!state.loading && (
+        <>
+          <div className="w-[400px] h-[60vh] p-6 py-10 my-10 rounded-2xl shadow-2xl bg-gray-200 dark:bg-gray-800 flex flex-col items-center justify-center">
+            {state.currentIndex === -1 && (
+              <Welcome onStart={handleStart} loading={state.loading} />
+            )}
+            {state.currentIndex >= 0 &&
+              state.currentIndex < state.questions.length && (
+                <Quiz state={state} dispatch={dispatch} />
+              )}
+            {console.log(33, state)}
+            {state.currentIndex === state.questions.length && (
+              <ResultsModal
+                state={state}
+                restart={() => dispatch({ type: "RESET" })}
+              />
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }

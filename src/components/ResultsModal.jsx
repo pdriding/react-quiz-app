@@ -22,8 +22,9 @@ export default function ResultsModal({ state, restart }) {
         </header>
         <section className="p-4 text-gray-800 text-base">
           <p>
-            You answered <strong>{score}</strong> out of{" "}
-            <strong>{questionsLength}</strong> questions correctly!
+            Well done <strong>{state.userName}</strong> you answered{" "}
+            <strong>{score}</strong> out of <strong>{questionsLength}</strong>{" "}
+            questions correctly!
           </p>
           <p>
             Your score:{" "}

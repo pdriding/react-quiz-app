@@ -1,5 +1,6 @@
-import { createContext, useReducer, useEffect } from "react";
-import { fetchQuestions } from "../api/questions";
+import { createContext, useReducer, useEffect, useContext } from "react";
+
+export const QuizContext = createContext();
 
 const initialState = {
   userName: "",
@@ -16,7 +17,7 @@ function quizReducer(state, action) {
     case "LOADING":
       return { ...state, loading: action.payload };
     case "ADD_USERNAME":
-      return { ...state, userName: action.userName };
+      return { ...state, userName: action.payload };
     case "SET_QUESTIONS":
       return { ...state, questions: action.payload };
     case "START":
@@ -37,22 +38,14 @@ function quizReducer(state, action) {
       return { ...state, currentIndex: state.currentIndex + 1 };
     case "RESET":
       // TODO
-      return initialState;
+      return { ...initialState };
     default:
       return state;
   }
 }
 
-export const QuizContext = createContext();
-
 export function QuizProvider({ children }) {
   const [state, dispatch] = useReducer(quizReducer, initialState);
-
-  useEffect(() => {
-    fetchQuestions().then((qs) =>
-      dispatch({ type: "SET_QUESTIONS", payload: qs })
-    );
-  }, []);
 
   return (
     <QuizContext.Provider value={{ state, dispatch }}>

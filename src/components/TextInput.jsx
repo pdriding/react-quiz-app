@@ -20,6 +20,7 @@ const TextInput = forwardRef(function TextInput({ onStart, loading }, ref) {
     if (!inputValue) {
       inputRef.current.focus();
     } else {
+      console.log(55, inputValue);
       onStart(inputValue);
     }
   }
